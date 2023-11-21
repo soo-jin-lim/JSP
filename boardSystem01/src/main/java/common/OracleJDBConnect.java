@@ -12,7 +12,7 @@ public class OracleJDBConnect {
         try {
             Class.forName("oracle.jdbc.OracleDriver");
             String url = "jdbc:oracle:thin:@localhost:1521:orcl";
-            String id = "lmh";
+            String id = "lsj";
             String pw = "1234";
             conn = DriverManager.getConnection(url, id, pw);
             System.out.println("Oracle JDBC1!!!!!!!!!!!!!!!!!!!!");

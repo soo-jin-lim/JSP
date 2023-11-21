@@ -5,6 +5,9 @@
 <%@ page import="java.util.List" %>
 <%@ page import="utils.BoardPage" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <%
   //pagingList.jsp
   BoardDAO dao=new BoardDAO();
@@ -48,22 +51,30 @@
 <jsp:include page="../common/link.jsp"/>
 <h2>게시글 목록보기</h2>
 <h3>게시물 수 : <%=totalCount%></h3>
+
+<c:set var="searchField" value="<%=searchField%>"/>
+<c:set var="searchWord" value="<%=searchWord%>"/>
+<c:set var="boardList" value="<%=boardDTOList%>"/>
+
 <form method="get">
   <table>
     <tr>
       <td align="center">
         <select name="searchField">
-          <%
-            if("content".equals(searchField)){
-          %>
+
+  <c:choose>
+    <c:when test="${searchField=='content'}">
           <option value="title">제목</option>
           <option value="content" selected>내용</option>
-          <% }else{ %>
+    </c:when>
+    <c:otherwise>
           <option value="title" selected>제목</option>
           <option value="content">내용</option>>내용</option>
-          <% } %>
+    </c:otherwise>
+  </c:choose>
+
         </select>
-        <input type="text" name="searchWord" value="<%=searchWord%>">
+        <input type="text" name="searchWord" value="${searchWord}">
         <input type="submit" value="검색">
       </td>
     </tr>
@@ -77,25 +88,27 @@
     <th width="10%">조회수</th>
     <th width="15%">작성일</th>
   </tr>
-  <%
-    if(boardDTOList.isEmpty()){
-  %>
+
+  <c:choose>
+    <c:when test="${empty boardList}">
   <tr><td colspan="5" align="center">등록된 게시글이 없습니다</td></tr>
-  <%
-    }else{
-      for(BoardDTO dto:boardDTOList){
-  %>
+    </c:when>
+    <c:otherwise>
+      <c:forEach var="dto" items="${boardList}">
   <tr>
-    <td><%=dto.getNum()%></td>
-    <td><a href="view.jsp?num=<%=dto.getNum()%>"><%=dto.getTitle()%></a></td>
-    <td><%=dto.getId()%></td>
-    <td><%=dto.getVisitcount()%></td>
-    <td><%=dto.getPostdate()%></td>
+    <td>${dto.num}</td>
+    <td><a href="view.jsp?num=${dto.num}">${dto.title}</a></td>
+    <td>${dto.id}</td>
+    <td>${dto.visitcount}></td>
+    <td>${dto.postdate}</td>
   </tr>
-  <%
-      }
-    }
-  %>
+      </c:forEach>
+    </c:otherwise>
+  </c:choose>
+<%--  <%--%>
+<%--      }--%>
+<%--    }--%>
+<%--  %>--%>
 </table>
 <table border="1" width="80%">
   <tr>
