@@ -6,7 +6,7 @@
 -한번의 맵핑으로 여러번 요청하기
 ![maping](https://github.com/soo-jin-lim/JSP/assets/123914453/18adc4ee-c11a-43a0-bfe2-9074520a0c27)
 
--
+-파일 업로드
 ![fileupload](https://github.com/soo-jin-lim/JSP/assets/123914453/69e5a5b5-1590-4126-ae1f-6a6caa38fbc3)
 
 
