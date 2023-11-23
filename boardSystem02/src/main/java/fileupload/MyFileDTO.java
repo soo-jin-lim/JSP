@@ -7,6 +7,9 @@ public class MyFileDTO {
     private String cate;
     private String title;
     private String ofile;
+    private String sfile;
+    private Date postDate;
+
 
     @Override
     public String toString() {
@@ -68,7 +71,5 @@ public class MyFileDTO {
         this.postDate = postDate;
     }
 
-    private String sfile;
-    private Date postDate;
 }
 
