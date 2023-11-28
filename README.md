@@ -18,9 +18,10 @@
 # mvcboard
 
 - 게시물 올리기
+  
 ![사진](https://github.com/soo-jin-lim/JSP/assets/123914453/72b41878-5321-44f1-b5a9-69f551ec90cd)
 
 
 - 댓글 작성 및 삭제
 
-- ![댓글](https://github.com/soo-jin-lim/JSP/assets/123914453/992029b2-e1ad-4580-badd-67f6ed87e91e)
+![댓글](https://github.com/soo-jin-lim/JSP/assets/123914453/992029b2-e1ad-4580-badd-67f6ed87e91e)
