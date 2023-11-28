@@ -10,7 +10,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
 
-@WebServlet("/upload/MultiUpload.do")
+@WebServlet("/upload/multiUpload.do")
 @MultipartConfig(
         maxFileSize = 1024*1204*1,
         maxRequestSize = 1024*1024*5
@@ -19,7 +19,7 @@ import java.util.ArrayList;
 public class MultiUploadController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getRequestDispatcher("/ch13/MultiUploadform.jsp").forward(req, resp);
+        req.getRequestDispatcher("/ch13/multiUploadform.jsp").forward(req, resp);
 
     }
 
@@ -29,12 +29,16 @@ public class MultiUploadController extends HttpServlet {
             String saveDirectory = getServletContext().getRealPath("/uploads");
             ArrayList<String> listFileName=FileUtile.multipleFile(req, saveDirectory);
 
-            String originalFileName=FileUtile.uploadFile(req,saveDirectory);
-            String saveFileName=FileUtile.renameFile(saveDirectory, originalFileName);
-            insertMyFile(req,originalFileName, saveFileName);
+            for(String originalFileName:listFileName){
+                String saveFileName=FileUtile.renameFile(saveDirectory,originalFileName);
+                insertMyFile(req,originalFileName,saveFileName);
+            }
             resp.sendRedirect("/upload/fileList.do");
+
         }catch (Exception ex){
             ex.printStackTrace();
+            req.setAttribute("errorMessage","파일업로드 오류");
+            req.getRequestDispatcher("/upload/multiUpload.do").forward(req,resp);
         }
     }
     private void insertMyFile(HttpServletRequest req, String oFileName, String sFileName) {

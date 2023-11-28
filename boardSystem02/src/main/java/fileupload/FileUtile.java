@@ -10,6 +10,7 @@ import javax.imageio.IIOException;
 import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 
 public class FileUtile {
@@ -39,18 +40,15 @@ public class FileUtile {
     public static String renameFile(String sDirectory, String filename){
         // 파일 확장자 추출
         String ext = filename.substring(filename.lastIndexOf("."));
-
+        String sname=filename.substring(0, filename.lastIndexOf("."));
         // 현재 날짜 및 시간을 이용하여 새로운 파일 이름 생성
         String now = new SimpleDateFormat("yyyyMMdd_HmsS").format(new Date());
-        String newFileName = now + ext;
-
+        String newFileName =sname+"_"+ now + ext;
         // 기존 파일 및 새 파일 객체 생성
         File oldFile = new File(sDirectory + File.separator + filename);
         File newFile = new File(sDirectory + File.separator + newFileName);
-
         // 파일 이름 변경
         oldFile.renameTo(newFile);
-
         // 새로운 파일 이름 반환
         return newFileName;
     }
@@ -90,8 +88,23 @@ public class FileUtile {
         }
     }
 
-    public static ArrayList<String> multipleFile(HttpServletRequest req, String saveDirectory) {
+    public static ArrayList<String> multipleFile(HttpServletRequest req, String saveDirectory) throws ServletException, IOException{
     ArrayList<String> listFileName=new ArrayList<>();
+        Collection<Part> parts=req.getParts();
+        for(Part part:parts){
+            if(!part.getName().equals("ofile")){
+                continue;
+            }
+            String partHeader=part.getHeader("content-disposition");
+            System.out.println("partHeader"+partHeader);
+            String[] phArr=partHeader.split("filename");
+            String originalFileName=phArr[1].trim().replace("\"","");
+            if(!originalFileName.isEmpty()){
+                part.write(saveDirectory+File.separator+originalFileName);
+            }
+            listFileName.add(originalFileName);
+        }
+
     return listFileName;
     }
 }
